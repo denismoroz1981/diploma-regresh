@@ -47,6 +47,15 @@ class OffersSearchModel extends Offers
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize'=> 10,
+                ],
+            'sort'=> [
+                    'defaultOrder'=>[
+                        'flats_number'=>SORT_DESC
+                    ]
+                ],
+
         ]);
 
         $this->load($params);

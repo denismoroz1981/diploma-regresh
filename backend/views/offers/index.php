@@ -31,6 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'flats_number',
             'address',
             'price',
+            ['attribute'=>'Price, USD','value'=>function($model){return
+                number_format($model->price/26,0,","," ");}],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
