@@ -12,6 +12,40 @@ class m180516_185527_init_offers_table extends Migration
      */
     public function safeUp()
     {
+         $this->createTable('offers',
+             [
+                 'id'=>'pk',
+                 'street_name'=>'string',
+                 'rooms_count'=>'integer',
+                 'type'=>'string',
+                 'is_commercial'=>$this->integer(),
+                 'state_name'=>'string',
+                 'beautiful_url'=>'string',
+                 'description'=>'string',
+                 'currency_type'=>'string',
+                 'metro_station_name'=>'string',
+                 'wall_type'=>'string',
+                 'publishing_date'=>'string',
+                 'price'=>'integer',
+                 'realty_type_name'=>'string',
+                 'latitude'=>'string',
+                 'main_photo'=>'string',
+                 'building_number_str'=>'string',
+                 'city_name'=>'string',
+                 'living_square_meters'=>$this->double(),
+                 'realty_type_id'=>'integer',
+                 'floors_count'=>'integer',
+                 'kitchen_square_meters'=>'integer',
+                 'flat_number'=>'string',
+                 'total_square_meters'=>'integer',
+                 'realty_id'=>$this->integer()->unique(),
+                 'date_end'=>'string',
+                 'district_name'=>'string',
+                 'advert_type_name'=>'string',
+                 'advert_type_id'=>'integer',
+             ],
+               'ENGINE=InnoDB'
+             );
 
     }
 
@@ -20,9 +54,10 @@ class m180516_185527_init_offers_table extends Migration
      */
     public function safeDown()
     {
-        echo "m180516_185527_init_offers_table cannot be reverted.\n";
+        $this->dropTable('offers');
+        //echo "m180516_185527_init_offers_table cannot be reverted.\n";
 
-        return false;
+        //return false;
     }
 
     /*

@@ -61,7 +61,18 @@ class ApiuploadController extends \yii\web\Controller
 
 
         $get_from_user = $request->get();
-        $path = "https://developers.ria.com/dom/options?";
+        if (!empty($get_from_user["btn_cat"])) {
+            $title="Realty categories from DOM.RIA";
+            $path = "https://developers.ria.com/dom/options?";
+        }
+        if (!empty($get_from_user["btn_offer"])) {
+            $title="Realty offer ids from DOM.RIA";
+            $path = "https://developers.ria.com/dom/search?";
+        }
+        if (!empty($get_from_user["btn_id"])) {
+            $title="Info for offer with id -".print_r($get_from_user["id"],1)."- from DOM.RIA";
+            $path = "https://developers.ria.com/dom/info/".print_r($get_from_user["id"],1)."?";
+        }
         foreach ($get_from_user as $k => $v){
             $path .="$k"."="."$v"."&";
 
@@ -69,7 +80,8 @@ class ApiuploadController extends \yii\web\Controller
         }
 
         $uploadedlist = json_decode(file_get_contents($path),true);
-        return $this->render('uploadedlist',['uploadedlist'=>$uploadedlist]);
+        return $this->render('uploadedlist',
+            ['uploadedlist'=>$uploadedlist,"title"=>$title]);
 
     }
 }

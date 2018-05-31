@@ -49,6 +49,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'uploadedlist'=>'apiupload/uploadedlist'
             ],
         ],
 

@@ -77,6 +77,6 @@ function prettyPrint( $json ){
 
 //header('Content-Type: application/json');
 //echo prettyPrint($uploadedlist);
-
-echo "<h1>Uploaded real estate features from DOM.RIA api</h1><br />";
+echo '<h1>'.print_r($title,1).'</h1>';
+//echo "<h1>Uploaded real estate features from DOM.RIA api</h1><br />";
 Kint::dump($uploadedlist);
