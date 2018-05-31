@@ -14,7 +14,7 @@ class m180516_185527_init_offers_table extends Migration
     {
          $this->createTable('offers',
              [
-                 'id'=>'pk',
+                 'admin_id'=>'pk',
                  'street_name'=>'string',
                  'rooms_count'=>'integer',
                  'type'=>'string',
@@ -43,6 +43,8 @@ class m180516_185527_init_offers_table extends Migration
                  'district_name'=>'string',
                  'advert_type_name'=>'string',
                  'advert_type_id'=>'integer',
+                 'admin_time_entered'=>$this->timestamp()->
+                 defaultValue(['expression'=>'CURRENT_TIMESTAMP'])
              ],
                'ENGINE=InnoDB'
              );
