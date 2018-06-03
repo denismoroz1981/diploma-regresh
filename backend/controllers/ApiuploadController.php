@@ -77,7 +77,7 @@ class ApiUpload {
                 $iter = ceil($data["count"] / $this->items_per_request);
                 $data_v=array_values($data["items"]);
                 //for ($i = 0; $i <$iter; $i++) {
-                    for ($i = 1; $i <3; $i++) {
+                    for ($i = 1; $i <1; $i++) {
                     $path_iter = $this->path . "page=" . print_r($i, 1);
 
                     $data_iter = json_decode(file_get_contents($path_iter), true);
@@ -96,12 +96,12 @@ class ApiUpload {
     public function getData() {
         if ($this->isCommon) { return $this->getDataCommon();}
         if ($this->button == "btn_id") {
-            $data = $this->getDataByID($this->params["id"],$this->params["api_key"]);
+            $data = self::getDataByID($this->params["id"],$this->params["api_key"]);
             return ["uploadedlist" => $data, "title" => $this->title];
         }
     }
 
-    private function getDataByID($id,$api_key) {
+    static function getDataByID($id,$api_key) {
         $path = "https://developers.ria.com/dom/info/".print_r($id,1).
             "?api_key=".print_r($api_key,1);
 
@@ -109,48 +109,69 @@ class ApiUpload {
 
     }
 
-    public function actionSavetodb() { // save data uploaded from API to DB
+    static function saveToDB() { // save data uploaded from API to DB
         //$offers=Offers::find();
         //$model->id = 1
 
-        $realty_id=Offers::find()->select("realty_id")->asArray->all();
-        $diff_id = array_diff($realty_id,$_SESSION["data_id"]);
+        $realty_id=Offers::find()->select("realty_id")->asArray()->all();
+        if (!empty($realty_id)) {
+            $diff_id = array_diff($realty_id, $_SESSION["data_id"]);
+        } else {
+            $diff_id = $_SESSION["data_id"];
+        }
 
-        foreach ($diff_id as $id) {
-            $offer = $this->getDataByID($id, $_SESSION["api_key"]);
+        //foreach ($diff_id as $id) {
+            //$offer = self::getDataByID($id, $_SESSION["api_key"]);
+            $offer = self::getDataByID("14005240", $_SESSION["api_key"]);
+            $offer_keys = array_keys($offer);
 
 
             $model = new Offers();
+            $isExists=[];
+            foreach ($offer_keys as $k=>$offer_key) {
+                if ($model->hasProperty($offer_key)) {
+                    $model[$offer_key] = $offer[$offer_key];
+                    $isExists[]=true;
+                }
 
-            $model->street_name = $offer('street_name');
-            $model->rooms_count = $offer('rooms_count');
-            $model->type=$offer('type');
-            $model->is_commercial=$offer('is_commercial');
-            $model->state_name=$offer('state_name');
-            $model->beautiful_url=$offer('beautiful_url');
-            $model->description=$offer('description');
-            $model->currency_type=$offer('currency_type');
-            $model->metro_station_name=$offer('metro_station_name');
-            $model->wall_type=$offer('wall_type');
-            $model->publishing_date=$offer('publishing_date');
-            $model->price=$offer('price');
-            $model->realty_type_name=$offer('realty_type_name');
-            $model->latitude=$offer('latitude');
-            $model->building_number_str=$offer('building_number_str');
-            $model->city_name=$offer('city_name');
-            $model->living_square_meters=$offer('living_square_meters');
-            $model->realty_type_id=$offer('realty_type_id');
-            $model->floors_count=$offer('floors_count');
-            $model->kitchen_square_meters=$offer('kitchen_square_meters');
-            $model->flat_number=$offer('flat_number');
-            $model->total_square_meters=$offer('total_square_meters');
-            $model->realty_id=$offer('realty_id');
-            $model->date_end=$offer('date_end');
-            $model->district_name=$offer('district_name');
-            $model->advert_type_name=$offer('advert_type_name');
-            $model->advert_type_id=$offer('advert_type_id');
+            }
+            $model->save();
+        //}
+        return ["uploadedlist" => get_class_methods($model), "title" => "uploaded"];
+            /*
+            $model->street_name = $offer['street_name'];
+            $model->rooms_count = $offer['rooms_count'];
+            $model->type=$offer['type'];
+            $model->is_commercial=$offer['is_commercial'];
+            $model->state_name=$offer['state_name'];
+            $model->beautiful_url=$offer['beautiful_url'];
+            $model->description=$offer['description'];
+            $model->currency_type=$offer['currency_type'];
+            if (!empty($offer['metro_station_name'])) {
+            $model->metro_station_name=$offer['metro_station_name'];}
+            $model->wall_type=$offer['wall_type'];
+            $model->publishing_date=$offer['publishing_date'];
+            $model->price=$offer['price'];
+            $model->realty_type_name=$offer['realty_type_name'];
+            $model->latitude=$offer['latitude'];
+            $model->building_number_str=$offer['building_number_str'];
+            $model->city_name=$offer['city_name'];
+            $model->living_square_meters=$offer['living_square_meters'];
+            $model->realty_type_id=$offer['realty_type_id'];
+            $model->floors_count=$offer['floors_count'];
+            $model->kitchen_square_meters=$offer['kitchen_square_meters'];
+            $model->flat_number=$offer['flat_number'];
+            $model->total_square_meters=$offer['total_square_meters'];
+            $model->realty_id=$offer['realty_id'];
+            $model->date_end=$offer['date_end'];
+            $model->district_name=$offer['district_name'];
+            $model->advert_type_name=$offer['advert_type_name'];
+            $model->advert_type_id=$offer['advert_type_id'];
             $model->save();
               }
+            */
+
+
 
     }
 
@@ -197,10 +218,14 @@ class ApiuploadController extends \yii\web\Controller
         echo 'Uploaded json from RIA.DOM';
 
         $request=Yii::$app->request->get();
+        if ($request["button"]=="btn_save") {
+            $uploadedlist = ApiUpload::saveToDB();
 
-        $ul = new ApiUpload($request);
-        $uploadedlist=$ul->getData();
 
+        } else {
+            $ul = new ApiUpload($request);
+            $uploadedlist = $ul->getData();
+        }
         return $this->render('index',
             $uploadedlist);
 

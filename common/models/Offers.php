@@ -29,9 +29,9 @@ class Offers extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['flats_number'], 'integer'],
-            [['city', 'address'], 'string', 'max' => 255],
-            [['price'],'integer','min'=>0,'max'=>100000000]
+           [['street_name'], 'string'],
+            //[['city', 'address'], 'string', 'max' => 255],
+            //[['price'],'integer','min'=>0,'max'=>100000000]
         ];
     }
 

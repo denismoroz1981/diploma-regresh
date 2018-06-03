@@ -64,6 +64,9 @@ echo Html::label('city id:');
 echo Html::input('text','city_id',$city_id,['size'=>2]);
 echo '<br>';
 echo Html::submitButton('Upload offers',['name'=>'button','value'=>'btn_offer','class'=>'btn btn-primary']);
+echo Html::submitButton('Save offers',['name'=>'button','value'=>'btn_save','class'=>'btn btn-success']);
+echo Html::submitButton('Discard',['name'=>'button','value'=>'btn_discard','class'=>'btn btn-danger']);
+
 echo '</td>';
 echo '<td>';
 //echo '<br>';
@@ -79,10 +82,7 @@ echo '</tr>';
 echo '</table>';
 echo Html::endForm();
 
-echo Html::beginForm('savetodb','get',[]);
-echo Html::submitButton('Save offers',['name'=>'button','value'=>'btn_save','class'=>'btn btn-success']);
-echo Html::endForm();
-echo Html::submitButton('Discard',['name'=>'button','value'=>'btn_discard','class'=>'btn btn-danger']);
+
 
 //echo '<br>';
 echo '<hr>';
