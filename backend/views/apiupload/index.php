@@ -53,7 +53,7 @@ echo Html::input('text','realty_type',$realty_type,['size'=>2]);
 echo Html::label('operation type:');
 echo Html::input('text','operation_type',$operation_type,['size'=>2]);
 echo '<br>';
-echo Html::submitButton('Show offer\'s categories',['name'=>'button','value'=>'btn_cat']);
+echo Html::submitButton('Show offer\'s categories',['name'=>'button','value'=>'btn_cat','class'=>'btn btn-primary']);
 echo '</td>';
 echo '<td>';
 //echo '<br>';
@@ -63,19 +63,26 @@ echo Html::input('text','state_id',$state_id,['size'=>2]);
 echo Html::label('city id:');
 echo Html::input('text','city_id',$city_id,['size'=>2]);
 echo '<br>';
-echo Html::submitButton('Upload offers',['name'=>'button','value'=>'btn_offer']);
+echo Html::submitButton('Upload offers',['name'=>'button','value'=>'btn_offer','class'=>'btn btn-primary']);
 echo '</td>';
 echo '<td>';
 //echo '<br>';
 //echo '<br>';
+
+
 echo Html::label('offer id:');
 echo Html::input('text','id',$id,['size'=>10]);
 echo '<br>';
-echo Html::submitButton('Info by id',['name'=>'button','value'=>'btn_id']);
+echo Html::submitButton('Info by id',['name'=>'button','value'=>'btn_id','class'=>'btn btn-primary']);
 echo '</td>';
 echo '</tr>';
 echo '</table>';
 echo Html::endForm();
+
+echo Html::beginForm('savetodb','get',[]);
+echo Html::submitButton('Save offers',['name'=>'button','value'=>'btn_save','class'=>'btn btn-success']);
+echo Html::endForm();
+echo Html::submitButton('Discard',['name'=>'button','value'=>'btn_discard','class'=>'btn btn-danger']);
 
 //echo '<br>';
 echo '<hr>';

@@ -5,9 +5,12 @@ namespace backend\controllers;
 use common\models\Offers;
 use Yii;
 
+use common\models\OffersSearchModel;
+
 //define("API_KEY","tK5DsVHHZCjHlv81j9LiiQiiUWNryTQ1kmiXc5pZ");
 
 //function for pretty printing of JSON format
+
 
 class ApiUpload {
 
@@ -22,14 +25,14 @@ class ApiUpload {
         "btn_cat"=>[
             "path"=>"https://developers.ria.com/dom/options?",
             "items_per_request"=>NULL,
-            "items_per_day"=>8000,
+            "items_per_day"=>1000,
             "title" =>"Realty categories from DOM.RIA",
             "isCommon"=>true
         ],
         "btn_id"=>[
             "path"=>"https://developers.ria.com/dom/info/",
             "items_per_request"=>1,
-            "items_per_day"=>8000,
+            "items_per_day"=>1000,
             "title" =>"Realty categories from DOM.RIA",
             "isCommon"=>false
 
@@ -37,7 +40,7 @@ class ApiUpload {
         "btn_offer"=>[
             "path"=>"https://developers.ria.com/dom/search?",
             "items_per_request"=>100,
-            "items_per_day"=>8000,
+            "items_per_day"=>1000,
             "title" =>"Realty categories from DOM.RIA",
             "isCommon"=>true
         ]
@@ -58,36 +61,98 @@ class ApiUpload {
 
     private function getDataCommon() {
 
-        foreach ($this->params as $k => $v){
-            $this->path .="$k"."="."$v"."&";
-        }
-        $data = json_decode(file_get_contents($this->path),true);
-        if (empty($data["count"])) {return ["uploadedlist"=>$data,"title"=>$this->title];}
-        if(count($data["items"])>=$data["count"]) {
-            return ["uploadedlist" => $data, "title" => $this->title];
-        }
-        if(count($data["items"])<$data["count"]) {
-            $iter = ceil($data["count"]/$this->items_per_request);
-            for ($i=1;$i<=$iter;$i++) {
-                $path_iter=$this->path.="page=".$i;
+        try {
+            foreach ($this->params as $k => $v) {
+                $this->path .= "$k" . "=" . "$v" . "&";
+            }
 
-            $data_iter = json_decode(file_get_contents($path_iter),true);
-            $data = array_push($data["items"],$data_iter["items"]);}
-            return ["uploadedlist" => $data, "title" => $this->title];
+            $data = json_decode(file_get_contents($this->path), true);
+            if (empty($data["count"])) {
+                return ["uploadedlist" => $data, "title" => $this->title];
+            }
+            if (count($data["items"]) >= $data["count"]) {
+                return ["uploadedlist" => $data, "title" => $this->title];
+            }
+            if (count($data["items"]) < $data["count"]) {
+                $iter = ceil($data["count"] / $this->items_per_request);
+                $data_v=array_values($data["items"]);
+                //for ($i = 0; $i <$iter; $i++) {
+                    for ($i = 1; $i <3; $i++) {
+                    $path_iter = $this->path . "page=" . print_r($i, 1);
+
+                    $data_iter = json_decode(file_get_contents($path_iter), true);
+                    $data_iter= array_values($data_iter["items"]);
+                    $data_v = array_merge($data_v,$data_iter);
+                }
+                $_SESSION["data_id"] = $data_v;
+                $_SESSION["api_key"] = $this->params["api_key"];
+                return ["uploadedlist" => $data_v, "title" => $this->title];
+            }
+        } catch (\Exception $e) {
+            return ["uploadedlist"=>"","title"=>$e->getMessage()];
         }
     }
 
     public function getData() {
         if ($this->isCommon) { return $this->getDataCommon();}
         if ($this->button == "btn_id") {
-            $path = "https://developers.ria.com/dom/info/".print_r($this->params["id"],1).
-                "?";
-            $data = json_decode(file_get_contents($path),true);
-            return $data;
+            $data = $this->getDataByID($this->params["id"],$this->params["api_key"]);
+            return ["uploadedlist" => $data, "title" => $this->title];
         }
     }
 
+    private function getDataByID($id,$api_key) {
+        $path = "https://developers.ria.com/dom/info/".print_r($id,1).
+            "?api_key=".print_r($api_key,1);
 
+        return json_decode(file_get_contents($path),true);
+
+    }
+
+    public function actionSavetodb() { // save data uploaded from API to DB
+        //$offers=Offers::find();
+        //$model->id = 1
+
+        $realty_id=Offers::find()->select("realty_id")->asArray->all();
+        $diff_id = array_diff($realty_id,$_SESSION["data_id"]);
+
+        foreach ($diff_id as $id) {
+            $offer = $this->getDataByID($id, $_SESSION["api_key"]);
+
+
+            $model = new Offers();
+
+            $model->street_name = $offer('street_name');
+            $model->rooms_count = $offer('rooms_count');
+            $model->type=$offer('type');
+            $model->is_commercial=$offer('is_commercial');
+            $model->state_name=$offer('state_name');
+            $model->beautiful_url=$offer('beautiful_url');
+            $model->description=$offer('description');
+            $model->currency_type=$offer('currency_type');
+            $model->metro_station_name=$offer('metro_station_name');
+            $model->wall_type=$offer('wall_type');
+            $model->publishing_date=$offer('publishing_date');
+            $model->price=$offer('price');
+            $model->realty_type_name=$offer('realty_type_name');
+            $model->latitude=$offer('latitude');
+            $model->building_number_str=$offer('building_number_str');
+            $model->city_name=$offer('city_name');
+            $model->living_square_meters=$offer('living_square_meters');
+            $model->realty_type_id=$offer('realty_type_id');
+            $model->floors_count=$offer('floors_count');
+            $model->kitchen_square_meters=$offer('kitchen_square_meters');
+            $model->flat_number=$offer('flat_number');
+            $model->total_square_meters=$offer('total_square_meters');
+            $model->realty_id=$offer('realty_id');
+            $model->date_end=$offer('date_end');
+            $model->district_name=$offer('district_name');
+            $model->advert_type_name=$offer('advert_type_name');
+            $model->advert_type_id=$offer('advert_type_id');
+            $model->save();
+              }
+
+    }
 
 }
 
@@ -99,6 +164,8 @@ class ApiuploadController extends \yii\web\Controller
     {
         return $this->render('index');
     }
+
+
 
 
 
@@ -129,32 +196,8 @@ class ApiuploadController extends \yii\web\Controller
 
         echo 'Uploaded json from RIA.DOM';
 
-        /*
-
-
-        $get_from_user = $request->get();
-        if (!empty($get_from_user["btn_cat"])) {
-            $title="Realty categories from DOM.RIA";
-            $path = "https://developers.ria.com/dom/options?";
-            $ul = new ApiUpload($path,$get_from_user);
-            $uploadedlist = $ul->getData();
-        }
-
-        if (!empty($get_from_user["btn_id"])) {
-            $title="Info for offer with id -".print_r($get_from_user["id"],1)."- from DOM.RIA";
-            $path = "https://developers.ria.com/dom/info/".print_r($get_from_user["id"],1).
-                "?";
-            $ul = new ApiUpload($path,$get_from_user);
-            $uploadedlist = $ul->getData();
-        }
-
-        if (!empty($get_from_user["btn_offer"])) {
-            $title="Realty offer ids from DOM.RIA";
-            $path = "https://developers.ria.com/dom/search?";
-            $ul = new ApiUpload($path,$get_from_user);
-            $uploadedlist = $ul->getData();
-        }*/
         $request=Yii::$app->request->get();
+
         $ul = new ApiUpload($request);
         $uploadedlist=$ul->getData();
 
@@ -162,12 +205,6 @@ class ApiuploadController extends \yii\web\Controller
             $uploadedlist);
 
     }
-    public function actionSavetodb() { // save data uploaded from API to DB
-        //$offers=Offers::find();
-        $model = new Offers();
-        //$model->id = 1
 
-
-    }
 }
 
