@@ -18,7 +18,7 @@ class m180516_185527_init_offers_table extends Migration
                  'street_name'=>'string',
                  'rooms_count'=>'integer',
                  'type'=>'string',
-                 'is_commercial'=>$this->integer(),
+                 'is_commercial'=>'integer',
                  'state_name'=>'string',
                  'beautiful_url'=>'string',
                  'description'=>'string',
@@ -32,19 +32,18 @@ class m180516_185527_init_offers_table extends Migration
                  'main_photo'=>'string',
                  'building_number_str'=>'string',
                  'city_name'=>'string',
-                 'living_square_meters'=>$this->double(),
+                 'living_square_meters'=>$this->float(),
                  'realty_type_id'=>'integer',
                  'floors_count'=>'integer',
                  'kitchen_square_meters'=>'integer',
                  'flat_number'=>'string',
                  'total_square_meters'=>'integer',
-                 'realty_id'=>$this->integer()->unique(),
+                 'realty_id'=>'int unique',
                  'date_end'=>'string',
                  'district_name'=>'string',
                  'advert_type_name'=>'string',
                  'advert_type_id'=>'integer',
-                 'admin_time_entered'=>$this->timestamp()->
-                 defaultValue(['expression'=>'CURRENT_TIMESTAMP'])
+                 'admin_time_entered'=>$this->dateTime().' DEFAULT NOW()'
              ],
                'ENGINE=InnoDB'
              );
