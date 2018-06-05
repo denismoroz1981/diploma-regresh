@@ -7,9 +7,9 @@ use Yii;
 /**
  * This is the model class for table "offers".
  *
- * @property int $id
+ * @property int $admin_id
  * @property string $city
- * @property int $flats_number
+ * @property int $rooms_count
  * @property string $address
  * @property int $price
  */
@@ -41,11 +41,11 @@ class Offers extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'city' => 'City',
-            'flats_number' => 'Room Number',
-            'address' => 'Address',
-            'price' => 'Price, UAH',
+            //'id' => 'ID',
+            //'city' => 'City',
+            'rooms_count' => 'Room Number',
+            //'address' => 'Address',
+            //'price' => 'Price, UAH',
         ];
     }
 }

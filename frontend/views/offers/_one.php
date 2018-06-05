@@ -10,10 +10,10 @@
 <div class="row">
     <div class="col-lg-12">
 
-            <h3><?= $model->flats_number." rooms in <i>".$model->city."</i> for <b>".$model->price.
+            <h3><?= $model->rooms_count." rooms in <i>".$model->city_name."</i> for <b>".$model->price.
                 "</b> UAH"?></h3>
-            <p><?= $model->address; ?>
-            <?= \yii\bootstrap\Html::a('details',['offers/one','url'=>$model->id],
+            <p><?= $model->street_name; ?>
+            <?= \yii\bootstrap\Html::a('details',['offers/one','url'=>$model->admin_id],
                     ['class'=>'btn btn-success']) ?>
 
             </p>

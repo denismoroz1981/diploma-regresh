@@ -112,17 +112,29 @@ class ApiUpload {
     static function saveToDB() { // save data uploaded from API to DB
         //$offers=Offers::find();
         //$model->id = 1
+        try {
+            $realty_id_raw = Offers::find()->select("realty_id")->asArray()->all();
+            $realty_id=[];
+            foreach ($realty_id_raw as $v) {
+                $realty_id[] = intval ($v["realty_id"]);
+            }
 
-        $realty_id=Offers::find()->select("realty_id")->asArray()->all();
-        if (!empty($realty_id)) {
-            $diff_id = array_diff($realty_id, $_SESSION["data_id"]);
-        } else {
-            $diff_id = $_SESSION["data_id"];
+            if (!empty($realty_id)) {
+                $diff_id = array_merge(array_diff($realty_id, $_SESSION["data_id"]),
+                    array_diff($_SESSION["data_id"],$realty_id));
+            } else {
+                $diff_id = $_SESSION["data_id"];
+            }
+        } catch (\Exception $e) {
+            return ["uploadedlist"=>$realty_id,"title"=>$e->getMessage()];
         }
 
-        //foreach ($diff_id as $id) {
-            //$offer = self::getDataByID($id, $_SESSION["api_key"]);
-            $offer = self::getDataByID("14005240", $_SESSION["api_key"]);
+        
+
+
+        foreach ($diff_id as $id) {
+            $offer = self::getDataByID($id, $_SESSION["api_key"]);
+            //$offer = self::getDataByID("14005240", $_SESSION["api_key"]);
             $offer_keys = array_keys($offer);
 
 
@@ -136,8 +148,8 @@ class ApiUpload {
 
             }
             $model->save();
-        //}
-        return ["uploadedlist" => get_class_methods($model), "title" => "uploaded"];
+        }
+        return ["uploadedlist" => $realty_id, "title" => "uploaded"];
             /*
             $model->street_name = $offer['street_name'];
             $model->rooms_count = $offer['rooms_count'];

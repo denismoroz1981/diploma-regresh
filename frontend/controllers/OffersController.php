@@ -26,7 +26,7 @@ class OffersController extends Controller
             ],
             'sort'=> [
                 'defaultOrder'=>[
-                    'flats_number'=>SORT_DESC
+                    'rooms_count'=>SORT_DESC
                 ]
             ],
 
@@ -37,7 +37,7 @@ class OffersController extends Controller
 
     public function actionOne($url)
     {
-        if ($offers=Offers::find()->andWhere(['id'=>$url])->one()) {
+        if ($offers=Offers::find()->andWhere(['admin_id'=>$url])->one()) {
         return $this->render('one',['offers'=>$offers]);}
         throw new NotFoundHttpException("Ups, no such offer!");
     }

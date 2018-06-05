@@ -45,7 +45,7 @@ class m180516_185527_init_offers_table extends Migration
                  'advert_type_id'=>'integer',
                  'admin_time_entered'=>$this->dateTime().' DEFAULT NOW()'
              ],
-               'ENGINE=InnoDB'
+               'ENGINE=InnoDB', 'CHARACTER SET=utf8','COLLATE=utf8_general_ci'
              );
 
     }

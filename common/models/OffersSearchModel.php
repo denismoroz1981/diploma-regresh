@@ -18,8 +18,8 @@ class OffersSearchModel extends Offers
     public function rules()
     {
         return [
-            [['id', 'flats_number', 'price'], 'integer'],
-            [['city', 'address'], 'safe'],
+            [['admin_id', 'rooms_count', 'price'], 'integer'],
+            [['city_name', 'street_name'], 'safe'],
         ];
     }
 
@@ -52,7 +52,7 @@ class OffersSearchModel extends Offers
                 ],
             'sort'=> [
                     'defaultOrder'=>[
-                        'flats_number'=>SORT_DESC
+                        'rooms_count'=>SORT_DESC
                     ]
                 ],
 
@@ -68,13 +68,13 @@ class OffersSearchModel extends Offers
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id' => $this->id,
-            'flats_number' => $this->flats_number,
+            'admin_id' => $this->admin_id,
+            'rooms_count' => $this->rooms_count,
             'price' => $this->price,
         ]);
 
-        $query->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        $query->andFilterWhere(['like', 'city', $this->city_name])
+            ->andFilterWhere(['like', 'street', $this->street_name]);
 
         return $dataProvider;
     }

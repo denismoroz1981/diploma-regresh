@@ -6,7 +6,7 @@
  * Time: 6:20
  */
 ?>
-<h1><?=$offers->flats_number?></h1>
-<p><?=$offers->city?></p>
-<p><?=$offers->address?></p>
+<h1><?=$offers->rooms_count?></h1>
+<p><?=$offers->city_name?></p>
+<p><?=$offers->street_name?></p>
 <p><?=$offers->price?></p>

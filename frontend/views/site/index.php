@@ -19,12 +19,12 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-lg-8">
-                <?php for ($i=0;$i<2;$i++)
+                <?php for ($i=0;$i<1;$i++)
                 { ?>
-                <h3><?= $offers[$i]->flats_number." rooms in <i>".$offers[$i]->city."</i> for <b>".
-                    $offers[$i]->price.
-                    "</b> UAH"?></h3>
-                <p><?= $offers[$i]->address; ?></p>
+                <h3><?= $offers[$i]->rooms_count." rooms in <i>".$offers[$i]->city_name."</i> for <b>".
+                    $offers[$i]->currency_type." ".$offers[$i]->price.
+                    "</b>"?></h3>
+                <p><?= $offers[$i]->street_name; ?></p>
                 <? } ?>
                 <p><a class="btn btn-lg btn-success" href="offers">
                         see other offers</a></p>
