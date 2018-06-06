@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+
 }
 
 .wrap {
@@ -8,10 +9,13 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
+
+
 }
 
 .wrap > .container {
     padding: 70px 15px 20px;
+
 }
 
 .footer {
@@ -24,6 +28,12 @@ body {
 .jumbotron {
     text-align: center;
     background-color: transparent;
+    background: url(../assets/panorama_night1.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
 }
 
 .jumbotron .btn {

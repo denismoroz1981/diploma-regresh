@@ -3,13 +3,15 @@
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
+
+
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
-        <h1>Greetings!</h1>
+    <div class="jumbotron" style=" background: url(/assets/panorama_night1.jpg) no-repeat center; background-size: 100% auto">
+        <h1 style="color: yellow">Greetings!</h1>
 
-        <p class="lead">You are at the best site with appartments for sale ads!</p>
+        <p class="lead" style="color: yellow">You are at the best site with appartments for sale ads!</p>
 
         <!--<p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">
         Get started with Yii</a></p> -->
@@ -19,14 +21,29 @@ $this->title = 'My Yii Application';
 
         <div class="row">
             <div class="col-lg-8">
-                <?php for ($i=0;$i<1;$i++)
+                <h2>Real offers</h2>
+                <?php for ($i=0;$i<3;$i++)
                 { ?>
-                <h3><?= $offers[$i]->rooms_count." rooms in <i>".$offers[$i]->city_name."</i> for <b>".
-                    $offers[$i]->currency_type." ".$offers[$i]->price.
+
+                    <? $img_source="https://cdn.riastatic.com/photosnew/dom/photo/".
+                    substr(substr($offers[$i]->beautiful_url,7),0,-14)."__".
+                    substr($offers[$i]->main_photo,-12,-4)."f.jpg" ?>
+
+                    <h3 style="clear: left"><?= $offers[$i]->rooms_count." rooms in ".$offers[$i]->city_name.
+                ", ".$offers[$i]->street_name.
+                " for <b>".$offers[$i]->currency_type." ".$offers[$i]->price.
                     "</b>"?></h3>
-                <p><?= $offers[$i]->street_name; ?></p>
+
+                    <img src="<?=$img_source?>" width="192" height="144" style="float: left;
+                         margin-right: 10px">
+                <div style="margin-left: 5px">
+                    <p ><i>
+                        <?= $offers[$i]->description; ?>
+                    </i></p>
+                </div>
+                    <p style="clear: left"></p>
                 <? } ?>
-                <p><a class="btn btn-lg btn-success" href="offers">
+                <p><a class="btn btn-lg btn-success" href="offers" style="clear: left">
                         see other offers</a></p>
             </div>
 
