@@ -74,10 +74,10 @@ class ApiUpload {
                 return ["uploadedlist" => $data, "title" => $this->title];
             }
             if (count($data["items"]) < $data["count"]) {
-                $iter = ceil($data["count"] / $this->items_per_request);
+                $iter = ceil($data["count"] / $this->items_per_request); //number of interations
                 $data_v=array_values($data["items"]);
-                //for ($i = 0; $i <$iter; $i++) {
-                    for ($i = 1; $i <1; $i++) {
+                //for ($i = 0; $i <$iter; $i++) {// whole data
+                    for ($i = 1; $i <1; $i++) { //only one page for debagging
                     $path_iter = $this->path . "page=" . print_r($i, 1);
 
                     $data_iter = json_decode(file_get_contents($path_iter), true);
@@ -101,6 +101,7 @@ class ApiUpload {
         }
     }
 
+    //get ads info by id
     static function getDataByID($id,$api_key) {
         $path = "https://developers.ria.com/dom/info/".print_r($id,1).
             "?api_key=".print_r($api_key,1);
@@ -120,8 +121,11 @@ class ApiUpload {
             }
 
             if (!empty($realty_id)) {
-                $diff_id = array_merge(array_diff($realty_id, $_SESSION["data_id"]),
-                    array_diff($_SESSION["data_id"],$realty_id));
+                $diff_id =
+                    //array_merge(array_diff($realty_id, $_SESSION["data_id"]),
+                    array_diff($_SESSION["data_id"],$realty_id)
+            //)
+                ;
             } else {
                 $diff_id = $_SESSION["data_id"];
             }
