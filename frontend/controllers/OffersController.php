@@ -152,4 +152,6 @@ class OffersController extends Controller
         throw new NotFoundHttpException("Ups, no such offer!");
     }
 
+
+
 }

@@ -12,25 +12,66 @@
 use \yii\widgets\ListView;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
 
-
-
-
-
-
+$rooms_count = \yii\helpers\ArrayHelper::map(common\models\Offers::find()->
+asArray()->orderBy("rooms_count")->
+distinct()->all(),"rooms_count","rooms_count");
+$metro_station_name = \yii\helpers\ArrayHelper::map(common\models\Offers::find()->
+asArray()->orderBy("metro_station_name")->
+distinct()->all(),"metro_station_name","metro_station_name");
 ?>
+
 <div class="search-form">
     <?php $form = ActiveForm::begin(['method' => 'get']); ?>
-    <?= Html::label("Filters:") ?>
-    <?= $form->field($searchModel, 'rooms_count') ?>
+    <h4><?= Html::label("Filters:") ?></h4>
+
+    <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+        <?= $form->field($searchModel, 'rooms_count')->widget(Select2::classname(), [
+        'data' => $rooms_count,
+        //'value'=>$rooms_count,
+        //'language' => 'de',
+        'options' => ['multiple'=>true,'placeholder' => 'Select rooms number ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
+        </div>
+        <div class="col-md-9">
+    <?= $form->field($searchModel, 'metro_station_name')->widget(Select2::classname(), [
+        'data' => $metro_station_name,
+        'value'=>$metro_station_name,
+        //'language' => 'de',
+        'options' => ['multiple'=>true,'placeholder' => 'Select metro station ...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]);
+    ?>
+        </div>
+    </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+    <?= $form->field($searchModel,"description")->textarea(["rows"=>"1"]) ?>
+            </div>
+            </div>
 
 
 
 
-        <?= Html::submitButton('Apply', ['class' => 'btn btn-success']) ?>
+    <div class="row">
+    <?= Html::submitButton('Apply', ['class' => 'btn btn-success']) ?>
+    <?= Html::a('Reset filters', ['index'], ['class' => 'btn btn-info']) ?>
 
 
     <?php ActiveForm::end(); ?>
+    </div>
+    </div>
 </div>
 
 
