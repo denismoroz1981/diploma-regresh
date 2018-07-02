@@ -36,7 +36,7 @@ class m180628_151305_create_comments_table extends Migration
             'comments',
             'offers_id',
             'offers',
-            'realty_id',
+            'admin_id',
             'CASCADE'
         );
 

@@ -14,11 +14,11 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'offers_id')->textInput() ?>
 
-    <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'comment')->textarea(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'user')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'isapproved')->textInput() ?>
+    <?= $form->field($model, 'isapproved')->checkbox() ?>
 
     <?= $form->field($model, 'created_at')->textInput() ?>
 

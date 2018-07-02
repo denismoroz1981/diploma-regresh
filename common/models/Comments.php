@@ -35,7 +35,9 @@ class Comments extends \yii\db\ActiveRecord
             [['offers_id', 'isapproved'], 'integer'],
             [['created_at'], 'safe'],
             [['comment', 'user'], 'string', 'max' => 255],
-            [['offers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Offers::className(), 'targetAttribute' => ['offers_id' => 'realty_id']],
+            [['offers_id'], 'exist', 'skipOnError' => true,
+                'targetClass' => Offers::className(),
+                'targetAttribute' => ['offers_id' => 'admin_id']],
         ];
     }
 
@@ -59,6 +61,23 @@ class Comments extends \yii\db\ActiveRecord
      */
     public function getOffers()
     {
-        return $this->hasOne(Offers::className(), ['realty_id' => 'offers_id']);
+        return $this->hasOne(Offers::className(), ['admin_id' => 'offers_id']);
+    }
+
+    public function saveComment($offers_id) {
+        $comment = new Comments();
+        $comment->comment = $this->comment;
+
+        if (Yii::$app->user->isGuest) {
+            $comment->user = "guest";
+        } else {
+            $comment->user = Yii::$app->user->identityClass->username;
+        }
+        $comment->offers_id = $offers_id;
+        $comment->isapproved = 0;
+        echo var_export($comment);
+        return $comment->save();
+
+
     }
 }

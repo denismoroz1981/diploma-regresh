@@ -34,7 +34,37 @@
 
         </div>
     </div>
-'street_name'=>'string',
+    <div class="row">
+        <div class="col-lg-12">
+            <br>
+            <? $form = \yii\widgets\ActiveForm::begin([
+                    'action'=>['offers/comment','admin_id'=>$offers->admin_id],
+                'method'=>'get'
+            ])?>
+            <?= $form -> field($commentForm,'comment')->textarea(
+                ['class'=>'form-control','placeholder'=>'Your comment here...'])?>
+            <?= \yii\helpers\Html::submitButton("Send"); ?>
+            <? \yii\widgets\ActiveForm::end()?>
+            <br>
+            <b><h4>Comments</h4></b>
+            <?
+
+            foreach ($comments as $comment) {
+                if ($comment->isapproved) {
+                echo '<div class="thumbnail">';
+              echo  '<p><b>'.$comment->user.'</b> <i>'.$comment->created_at.'</i></p>';
+              echo  '<p>'.$comment->comment.'</p>';
+              echo '</div>';}
+            }
+
+             ?>
+
+
+        </div>
+
+    </div>
+
+<!--'street_name'=>'string',
 'rooms_count'=>'integer',
 'type'=>'string',
 'is_commercial'=>'integer',

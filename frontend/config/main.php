@@ -41,7 +41,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'offers/<url>'=>'offers/one',
+                //'offers/<url>'=>'offers/one',
                 'offers'=>'offers/index',
             ],
         ],

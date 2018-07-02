@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Comments;
 use Yii;
 use common\models\Offers;
 use common\models\OffersSearch;
@@ -147,10 +148,33 @@ class OffersController extends Controller
 
     public function actionOne($url)
     {
+
+
         if ($offers=Offers::find()->andWhere(['admin_id'=>$url])->one()) {
-            return $this->render('one',['offers'=>$offers]);}
+            $commentForm = new Comments();
+            $comments = $offers->comments;
+
+            return $this->render('one',['offers'=>$offers,'comments'=>$comments,
+            'commentForm'=>$commentForm]);}
         throw new NotFoundHttpException("Ups, no such offer!");
     }
+
+    public function actionComment($admin_id) {
+
+        $commentForm = new Comments();
+        if(Yii::$app->request->isGet) {
+            $commentForm->load(Yii::$app->request->get());
+            if ($commentForm->saveComment($admin_id)) {
+               echo 'Saved';
+                return $this->redirect(['offers/one','url'=>$admin_id]);
+            } else {
+                echo 'Not saved';
+            }
+        } else {echo 'No GET';}
+
+    }
+
+
 
 
 

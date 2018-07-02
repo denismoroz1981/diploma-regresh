@@ -100,4 +100,11 @@ class Offers extends \yii\db\ActiveRecord
             'admin_time_entered' => 'Admin Time Entered',
         ];
     }
+
+    public function getComments() {
+        return $this->hasMany(Comments::class,["offers_id"=>"admin_id"]);
+    }
+
+
+
 }
