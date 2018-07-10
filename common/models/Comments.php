@@ -71,7 +71,7 @@ class Comments extends \yii\db\ActiveRecord
         if (Yii::$app->user->isGuest) {
             $comment->user = "guest";
         } else {
-            $comment->user = Yii::$app->user->identityClass->username;
+            $comment->user = Yii::$app->user->identity->username;
         }
         $comment->offers_id = $offers_id;
         $comment->isapproved = 0;

@@ -18,7 +18,8 @@ class OffersSearch extends Offers
     public function rules()
     {
         return [
-            [['admin_id', 'rooms_count', 'is_commercial', 'price', 'realty_type_id', 'floors_count', 'kitchen_square_meters', 'total_square_meters', 'realty_id', 'advert_type_id'], 'integer'],
+            [['admin_id', 'is_commercial', 'price', 'realty_type_id', 'floors_count', 'kitchen_square_meters', 'total_square_meters', 'realty_id', 'advert_type_id'], 'integer'],
+           [['rooms_count'],'integer'],
             [['street_name', 'type', 'state_name', 'beautiful_url', 'description', 'currency_type', 'metro_station_name', 'wall_type', 'publishing_date', 'realty_type_name', 'latitude', 'main_photo', 'building_number_str', 'city_name', 'flat_number', 'date_end', 'district_name', 'advert_type_name', 'admin_time_entered'], 'safe'],
             [['living_square_meters'], 'number'],
         ];
@@ -42,6 +43,9 @@ class OffersSearch extends Offers
      */
     public function search($params)
     {
+
+
+
         $query = Offers::find();
 
         // add conditions that should always apply here
@@ -80,7 +84,8 @@ class OffersSearch extends Offers
             ->andFilterWhere(['like', 'beautiful_url', $this->beautiful_url])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'currency_type', $this->currency_type])
-            ->andFilterWhere(['like', 'metro_station_name', $this->metro_station_name])
+            //->andFilterWhere(['in', 'rooms_count', $this->rooms_count])
+            ->andFilterWhere(['in', 'metro_station_name', $this->metro_station_name])
             ->andFilterWhere(['like', 'wall_type', $this->wall_type])
             ->andFilterWhere(['like', 'publishing_date', $this->publishing_date])
             ->andFilterWhere(['like', 'realty_type_name', $this->realty_type_name])

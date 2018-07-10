@@ -101,9 +101,10 @@ class Offers extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getComments() {
-        return $this->hasMany(Comments::class,["offers_id"=>"admin_id"]);
-    }
+    //public function getComments() {
+
+      //  return $this->hasMany(Comments::class,["offers_id"=>"admin_id"]);
+    //}
 
 
 

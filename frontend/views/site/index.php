@@ -48,14 +48,13 @@ $this->title = 'My Yii Application';
             </div>
 
             <div class="col-lg-4">
-                <h2>Guest book</h2>
+                <h2>Are you seeking real estate?</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+                <p>This is the best site for people who seek appartments to live or invest money.
+                A lot of fresh ads from all Kiev's districts are waiting for you. </p>
+                <p>If you find an appartment you want to buy feel free to refer to us by phone
+                    <b>+1-111-1111-1111</b> </p>
 
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
             </div>
         </div>
 

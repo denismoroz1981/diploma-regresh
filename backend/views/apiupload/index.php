@@ -23,7 +23,7 @@ $api_key='tK5DsVHHZCjHlv81j9LiiQiiUWNryTQ1kmiXc5pZ';
 
 </style>
 
-
+<p>See instructions at <a href="https://developers.ria.com/dom_ria">developers.ria.com</a></p>
 <p><b>developer's api_key:</b> <i><?= print_r($api_key) ?></i></p>
 
 <?php

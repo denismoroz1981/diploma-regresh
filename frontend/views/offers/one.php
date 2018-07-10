@@ -27,7 +27,13 @@
             <h1 style="color: green"><?=$offers->currency_type." ".number_format((float)$offers->price, $decimals=0,
                     $dec_point=",",$thousands_sep=" ")?></h1>
         <table>
-            <tr><td>Комнат: </td><td><?=$offers->rooms_count?></td></tr>
+            <tr><td>Metro station: </td><td><?=$offers->metro_station_name?></td></tr>
+            <tr><td>District: </td><td><?=$offers->district_name?></td></tr>
+            <tr style="border-bottom: 1px solid #ddd"><td>Address: </td><td><?=$offers->building_number_str?></td></tr>
+            <tr><td>Rooms count: </td><td><b><?=$offers->rooms_count?></b></td></tr>
+            <tr><td>Total square meters: </td><td><b><?=$offers->total_square_meters?></b></td></tr>
+            <tr><td>Living square meters: </td><td><b><?=$offers->living_square_meters?></b></td></tr>
+            <tr><td>Kitchen square meters: </td><td><b><?=$offers->kitchen_square_meters?></b></td></tr></tr>
 
         </table>
 

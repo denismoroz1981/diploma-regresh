@@ -18,7 +18,7 @@ class m180628_151305_create_comments_table extends Migration
             'comment' => 'string',
             'user' => 'string',
             'isapproved' => 'integer',
-            'created_at' => $this->dateTime().' DEFAULT NOW()',
+            'created_at' => 'TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP',
         ],
             'ENGINE=InnoDB', 'CHARACTER SET=utf8','COLLATE=utf8_general_ci'
         );
